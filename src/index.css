@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'Oretan Shadow';
+  src: url('./fonts/OretansShadow.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+}
+
+.font-oretan {
+  font-family: 'Oretan Shadow', sans-serif !important;
+} 
