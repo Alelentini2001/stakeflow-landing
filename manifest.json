@@ -1,5 +1,5 @@
 {
-  "short_name": "React App",
+  "short_name": "StakeFlow",
   "name": "StakeFlow",
   "icons": [
     {
@@ -20,6 +20,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
+  "description": "StakeFlow is a platform for helping you manage pay crypto fees how you want it.",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
