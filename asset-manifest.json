@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/stakeflow-landing/static/css/main.93390565.css",
-    "main.js": "/stakeflow-landing/static/js/main.9725ec83.js",
+    "main.css": "/stakeflow-landing/static/css/main.7cd657c4.css",
+    "main.js": "/stakeflow-landing/static/js/main.25c55c3a.js",
     "static/media/OretansShadow.ttf": "/stakeflow-landing/static/media/OretansShadow.ce4a595c61f840a2a4fd.ttf",
     "index.html": "/stakeflow-landing/index.html",
-    "main.93390565.css.map": "/stakeflow-landing/static/css/main.93390565.css.map",
-    "main.9725ec83.js.map": "/stakeflow-landing/static/js/main.9725ec83.js.map"
+    "main.7cd657c4.css.map": "/stakeflow-landing/static/css/main.7cd657c4.css.map",
+    "main.25c55c3a.js.map": "/stakeflow-landing/static/js/main.25c55c3a.js.map"
   },
   "entrypoints": [
-    "static/css/main.93390565.css",
-    "static/js/main.9725ec83.js"
+    "static/css/main.7cd657c4.css",
+    "static/js/main.25c55c3a.js"
   ]
 }
