@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   ChevronRight,
@@ -11,6 +11,8 @@ import {
   Users,
   ArrowUpRight,
   Lock,
+  Activity,
+  Clock,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -37,22 +39,104 @@ function Logo({ className = 'w-10 h-10' }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Outer Ring - Security */}
+      {/* Outer Ring with Orbital Effect */}
       <motion.circle
         cx="50"
         cy="50"
         r="40"
         stroke="url(#ringGradient)"
         strokeWidth="2"
-        initial={{ pathLength: 0, rotate: -90 }}
-        animate={{ pathLength: 1, rotate: 0 }}
+        initial={{ pathLength: 0, rotate: -90, scale: 0.8 }}
+        animate={{
+          pathLength: 2,
+          rotate: 360,
+          scale: [0.8, 1, 0.8],
+        }}
         transition={{
           pathLength: { duration: 1.5, ease: 'easeInOut' },
-          rotate: { duration: 1.5, ease: 'easeInOut' },
+          rotate: {
+            duration: 8,
+            repeat: Infinity,
+            ease: 'linear',
+          },
+          scale: {
+            duration: 3,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          },
         }}
+        style={{ transformOrigin: '50px 50px' }}
       />
 
-      {/* Dynamic Flow Lines - Velocity */}
+      {/* Multiple Orbital Particles */}
+      {[...Array(20)].map((_, i) => {
+        // Generate random parameters for each particle
+        const radius = 35 + Math.random() * 10; // Random orbit radius
+        const speed = 3 + Math.random() * 2; // Random speed
+        const direction = Math.random() > 0.5 ? 1 : -1; // Random direction
+        const delay = Math.random() * 2; // Random start delay
+        const size = 1 + Math.random() * 2; // Random particle size
+
+        return (
+          <motion.circle
+            key={i}
+            cx="20"
+            cy="20"
+            r={size}
+            fill="#60A5FA"
+            initial={{
+              x: radius * Math.cos((i * 360) / 8),
+              y: radius * Math.sin((i * 360) / 8),
+              scale: 0,
+            }}
+            animate={{
+              x: radius * Math.cos((i * 360) / 8),
+              y: radius * Math.sin((i * 360) / 8),
+              rotate: [0, 360 * direction],
+              scale: [0, 1, 0],
+              opacity: [0, 0.8, 0],
+            }}
+            transition={{
+              x: {
+                duration: speed,
+                repeat: Infinity,
+                ease: 'linear',
+                delay: delay,
+              },
+              y: {
+                duration: speed,
+                repeat: Infinity,
+                ease: 'linear',
+                delay: delay,
+              },
+              rotate: {
+                duration: speed,
+                repeat: Infinity,
+                ease: 'linear',
+                delay: delay,
+              },
+              scale: {
+                duration: speed / 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: delay,
+              },
+              opacity: {
+                duration: speed / 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: delay,
+              },
+            }}
+            style={{
+              transformOrigin: '50px 50px',
+              transformBox: 'fill-box',
+            }}
+          />
+        );
+      })}
+
+      {/* Dynamic Flow Lines with Wave Effect */}
       <motion.path
         d="M30 50C30 40 70 40 70 50C70 60 30 60 30 50"
         stroke="url(#flowGradient)"
@@ -60,11 +144,28 @@ function Logo({ className = 'w-10 h-10' }) {
         strokeLinecap="round"
         fill="none"
         initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1, delay: 0.5 }}
+        animate={{
+          pathLength: 1,
+          rotate: -360,
+          y: [-2, 2, -2],
+        }}
+        transition={{
+          pathLength: { duration: 1, delay: 0.5 },
+          rotate: {
+            duration: 12,
+            repeat: Infinity,
+            ease: 'linear',
+          },
+          y: {
+            duration: 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          },
+        }}
+        style={{ transformOrigin: '50px 50px' }}
       />
 
-      {/* Central Energy Ring - Innovation */}
+      {/* Energy Ring with Pulse and Spin */}
       <motion.circle
         cx="50"
         cy="50"
@@ -72,22 +173,46 @@ function Logo({ className = 'w-10 h-10' }) {
         stroke="url(#innerGradient)"
         strokeWidth="3"
         initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        animate={{
+          scale: [0.9, 1.1, 0.9],
+          opacity: [0.5, 1, 0.5],
+          rotate: -180,
+        }}
+        transition={{
+          scale: {
+            duration: 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          },
+          opacity: {
+            duration: 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          },
+          rotate: {
+            duration: 6,
+            repeat: Infinity,
+            ease: 'linear',
+          },
+        }}
+        style={{ transformOrigin: '50px 50px' }}
       />
 
-      {/* Pulse Effect */}
+      {/* Core Energy Burst */}
       <motion.circle
         cx="50"
         cy="50"
-        r="15"
-        stroke="rgba(255, 255, 255, 0.5)"
-        strokeWidth="2"
-        fill="none"
-        initial={{ scale: 0.8, opacity: 0 }}
+        r="4"
+        fill="white"
+        initial={{ scale: 0 }}
         animate={{
-          scale: [0.8, 1.2, 0.8],
-          opacity: [0, 1, 0],
+          scale: [1, 1.5, 1],
+          opacity: [1, 0.8, 1],
+          boxShadow: [
+            '0 0 0 0 rgba(255,255,255,0)',
+            '0 0 20px 10px rgba(255,255,255,0.5)',
+            '0 0 0 0 rgba(255,255,255,0)',
+          ],
         }}
         transition={{
           duration: 2,
@@ -96,30 +221,68 @@ function Logo({ className = 'w-10 h-10' }) {
         }}
       />
 
-      {/* Core Dot */}
-      <motion.circle
-        cx="50"
-        cy="50"
-        r="4"
-        fill="white"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{
-          duration: 0.3,
-          delay: 1,
-          type: 'spring',
-          stiffness: 400,
-        }}
-      />
-
-      {/* Gradients */}
+      {/* Enhanced Gradients */}
       <defs>
         <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <motion.stop
             offset="0%"
             stopColor="#0EA5E9"
             animate={{
-              stopColor: ['#0EA5E9', '#2563EB', '#0EA5E9'],
+              stopColor: ['#0EA5E9', '#2563EB', '#60A5FA', '#0EA5E9'],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+          <motion.stop
+            offset="100%"
+            stopColor="#2563EB"
+            animate={{
+              stopColor: ['#2563EB', '#60A5FA', '#0EA5E9', '#2563EB'],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+        </linearGradient>
+
+        <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <motion.stop
+            offset="0%"
+            stopColor="#60A5FA"
+            animate={{
+              stopColor: ['#60A5FA', '#3B82F6', '#60A5FA'],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+          <motion.stop
+            offset="100%"
+            stopColor="#3B82F6"
+            animate={{
+              stopColor: ['#3B82F6', '#60A5FA', '#3B82F6'],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+        </linearGradient>
+
+        <linearGradient id="innerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <motion.stop
+            offset="0%"
+            stopColor="#93C5FD"
+            animate={{
+              stopColor: ['#93C5FD', '#60A5FA', '#93C5FD'],
             }}
             transition={{
               duration: 3,
@@ -127,17 +290,18 @@ function Logo({ className = 'w-10 h-10' }) {
               ease: 'linear',
             }}
           />
-          <stop offset="100%" stopColor="#2563EB" />
-        </linearGradient>
-
-        <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#60A5FA" />
-          <stop offset="100%" stopColor="#3B82F6" />
-        </linearGradient>
-
-        <linearGradient id="innerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#93C5FD" />
-          <stop offset="100%" stopColor="#60A5FA" />
+          <motion.stop
+            offset="100%"
+            stopColor="#60A5FA"
+            animate={{
+              stopColor: ['#60A5FA', '#93C5FD', '#60A5FA'],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
         </linearGradient>
       </defs>
     </motion.svg>
@@ -202,7 +366,12 @@ function App() {
       <nav className="fixed top-0 w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-8">
+            <div
+              className="flex items-center gap-8"
+              onClick={() => {
+                window.location.href = '#';
+              }}
+            >
               <AnimatedLogo className="w-8 h-8" />
               <div className="hidden md:flex items-center gap-6">
                 <a href="#features" className="text-gray-300 hover:text-white">
@@ -361,7 +530,7 @@ const payment = await stakeflow.createPayment({
 // Execute transaction
 const result = await payment.execute();`}
                 language="javascript"
-                disableCopy={true}
+                copyable={false}
               />
             </div>
 
@@ -456,6 +625,60 @@ const result = await payment.execute();`}
         </div>
       </section>
 
+      {/* Network Status Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <Badge className="mb-4">Network Status</Badge>
+            <h2 className="text-4xl font-bold">
+              Real-Time Network Availability
+            </h2>
+            <p className="text-gray-400 mt-4">
+              Monitor current gas fees and transaction speeds across supported
+              networks
+            </p>
+          </div>
+
+          {/* Real-time Gas Savings Calculator */}
+          <BackgroundGradient className="rounded-[22px] p-6 mt-12">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold mb-4">
+                Gas Savings Calculator
+              </h3>
+              <p className="text-gray-400 mb-6">
+                See how much you can save by using StakeFlow's gas-free
+                transactions
+              </p>
+
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-gray-900/50 rounded-lg p-4">
+                  <div className="text-3xl font-bold text-green-500">
+                    $1.2M+
+                  </div>
+                  <div className="text-sm text-gray-400">Total Gas Saved</div>
+                </div>
+
+                <div className="bg-gray-900/50 rounded-lg p-4">
+                  <div className="text-3xl font-bold text-blue-500">2.1M+</div>
+                  <div className="text-sm text-gray-400">
+                    Transactions Processed
+                  </div>
+                </div>
+
+                <div className="bg-gray-900/50 rounded-lg p-4">
+                  <div className="text-3xl font-bold text-purple-500">
+                    $0.57
+                  </div>
+                  <div className="text-sm text-gray-400">
+                    Average Savings/Tx
+                  </div>
+                </div>
+              </div>
+            </div>
+          </BackgroundGradient>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section id="features" className="py-20 relative">
         <div className="container mx-auto px-4">
@@ -542,7 +765,9 @@ const result = await payment.execute();`}
             </div>
 
             <BackgroundGradient className="rounded-[22px] p-6">
-              <div className="aspect-square relative bg-gray-900 rounded-2xl overflow-hidden flex items-center justify-center">
+              <div className="aspect-square relative rounded-2xl overflow-hidden flex items-center justify-center">
+                {/* 
+                // bg-gray-900
                 <div className="absolute inset-0">
                   <SparklesCore
                     id="howItWorksSparkles"
@@ -555,7 +780,7 @@ const result = await payment.execute();`}
                     speed={0.5}
                     particleWander={2}
                   />
-                </div>
+                </div> */}
 
                 <div className="relative z-10 flex flex-col items-center gap-6">
                   <AnimatedLogo className="w-24 h-24" />
@@ -739,6 +964,106 @@ await payment.sendTransaction({
                   </li>
                 </ul>
               </BackgroundGradient>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* DAO Section - New */}
+      <section className="py-20 bg-gray-900/50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center mb-16">
+            Governance DAO
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <BackgroundGradient className="rounded-[22px] p-6">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <AnimatedLogo className="w-12 h-12" />
+                    <h3 className="text-2xl font-bold">
+                      Community-Driven Protocol
+                    </h3>
+                  </div>
+                  <p className="text-gray-400">
+                    StakeFlow DAO empowers token holders to shape the future of
+                    the protocol through democratic governance.
+                  </p>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <Users className="w-6 h-6 text-blue-500" />
+                      <div>
+                        <h4 className="font-semibold">Voting Power</h4>
+                        <p className="text-sm text-gray-400">1 FLOW = 1 Vote</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <PieChart className="w-6 h-6 text-purple-500" />
+                      <div>
+                        <h4 className="font-semibold">Proposal Threshold</h4>
+                        <p className="text-sm text-gray-400">
+                          100,000 FLOW to submit proposals
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button size="lg" className="w-full">
+                    Join DAO
+                  </Button>
+                </div>
+              </BackgroundGradient>
+            </div>
+
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold">What Can You Vote On?</h3>
+
+              <div className="grid gap-4">
+                <BackgroundGradient className="rounded-[22px] p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                      <Coins className="w-4 h-4 text-blue-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Token Integration</h4>
+                      <p className="text-sm text-gray-400">
+                        Vote on new tokens and chains to support
+                      </p>
+                    </div>
+                  </div>
+                </BackgroundGradient>
+
+                <BackgroundGradient className="rounded-[22px] p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                      <PieChart className="w-4 h-4 text-purple-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Fee Structure</h4>
+                      <p className="text-sm text-gray-400">
+                        Adjust platform fees and reward distribution
+                      </p>
+                    </div>
+                  </div>
+                </BackgroundGradient>
+
+                <BackgroundGradient className="rounded-[22px] p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-4 h-4 text-green-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Protocol Upgrades</h4>
+                      <p className="text-sm text-gray-400">
+                        Vote on smart contract upgrades and security measures
+                      </p>
+                    </div>
+                  </div>
+                </BackgroundGradient>
+              </div>
             </div>
           </div>
         </div>
